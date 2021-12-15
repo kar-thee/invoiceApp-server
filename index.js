@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const cors = require("cors");
 
 app.use(cors());
@@ -15,15 +15,13 @@ const AuthCheck = require("./middlewares/AuthCheck");
 app.use("/", (req, res) => {
   res.send({ msg: "appServer is available" });
 });
-
 app.use("/api/auth", AuthRoute);
-
 app.use("/api/private", AuthCheck, PrivateRoute);
 
 dbConnectFunc()
-  .then(() => {
-    app.listen(process.env.PORT, () => {
+  .then(() =>
+    app.listen(process.env.PORT || 4080, () => {
       console.log("AppServer Started");
-    });
-  })
+    })
+  )
   .catch((e) => console.log(e.message, " ERR-index.js"));
