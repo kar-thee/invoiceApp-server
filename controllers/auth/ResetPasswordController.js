@@ -17,7 +17,7 @@ const ResetPasswordController = async (req, res) => {
     const token = tokenHeader.split(" ")[1];
     const userPayLoad = verifyToken(token);
 
-    if (!userPayLoad) {
+    if (!userPayLoad || typeof payLoad === "string") {
       return res.status(400).send({
         msg: "couldnot process request/token tampered ..pls repeat the process again",
         type: "error",
@@ -50,7 +50,7 @@ const ResetPasswordController = async (req, res) => {
     await mailerFunc(mailData);
     res.send({ msg: "Successfully password changed", type: "success" });
   } catch (e) {
-    console.log(e, " err-resetPwdController");
+    console.log(e.message, " err-resetPwdController");
     res.status(500).send({ msg: "server issue....", type: "error" });
   }
 };

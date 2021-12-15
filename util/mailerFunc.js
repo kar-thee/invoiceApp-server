@@ -20,7 +20,7 @@ const mailerFunc = async (data) => {
     const response = await transporter.sendMail(mailOptions);
     return response;
   } catch (e) {
-    console.log(e, " xerr-mailFunc");
+    console.log(e.message, " xerr-mailFunc");
   }
 };
 

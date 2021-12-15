@@ -13,7 +13,7 @@ const EmailActivationController = async (req, res) => {
     }
 
     const payLoad = verifyToken(activationId);
-    if (!payLoad) {
+    if (!payLoad || typeof payLoad === "string") {
       return res.status(403).send({
         msg: "Value Tampered...Sign in again to get new code",
         type: "error",
@@ -42,7 +42,7 @@ const EmailActivationController = async (req, res) => {
 
     res.send({ msg: "Id activated successfully", type: "success" });
   } catch (e) {
-    console.log(e, " err-emailActivationController");
+    console.log(e.message, " err-emailActivationController");
     res.status(500).send({ msg: "server issue...", type: "error" });
   }
 };

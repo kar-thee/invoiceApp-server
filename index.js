@@ -9,6 +9,8 @@ app.use(express.json());
 const dbConnectFunc = require("./db/dbIntegration");
 
 const AuthRoute = require("./routes/AuthRoute");
+const PrivateRoute = require("./routes/PrivateRoute");
+const AuthCheck = require("./middlewares/AuthCheck");
 
 app.use("/e", (req, res) => {
   res.send({ msg: "appServer is available" });
@@ -16,9 +18,7 @@ app.use("/e", (req, res) => {
 
 app.use("/api/auth", AuthRoute);
 
-app.use("/api/private", (req, res) => {
-  res.send({ msg: "private" });
-});
+app.use("/api/private", AuthCheck, PrivateRoute);
 
 dbConnectFunc()
   .then(() => {

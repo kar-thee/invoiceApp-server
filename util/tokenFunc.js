@@ -5,7 +5,12 @@ const signToken = (data) => {
 };
 
 const verifyToken = (string) => {
-  return jwt.verify(string, process.env.TOKENSECRET);
+  try {
+    const response = jwt.verify(string, process.env.TOKENSECRET);
+    return response;
+  } catch (e) {
+    return e.message;
+  }
 };
 
 module.exports = { signToken, verifyToken };
