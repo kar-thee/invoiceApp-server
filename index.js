@@ -12,7 +12,7 @@ const AuthRoute = require("./routes/AuthRoute");
 const PrivateRoute = require("./routes/PrivateRoute");
 const AuthCheck = require("./middlewares/AuthCheck");
 
-app.use("/e", (req, res) => {
+app.use("/", (req, res) => {
   res.send({ msg: "appServer is available" });
 });
 
