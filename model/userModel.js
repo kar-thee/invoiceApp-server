@@ -17,7 +17,7 @@ const userSchema = schema({
   },
   role: {
     type: String,
-    enum: ["admin", "manager", "employee", "client"],
+    enum: ["admin", "manager", "employee", "customer"],
   },
   isVerified: {
     type: Boolean,

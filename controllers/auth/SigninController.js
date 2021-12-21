@@ -37,6 +37,7 @@ const SigninController = async (req, res) => {
       name: userAvailable.name,
       email: userAvailable.email,
       id: userAvailable._id,
+      role: userAvailable.role,
     };
     const token = signToken(tokenPayload);
 
@@ -55,6 +56,7 @@ const SigninController = async (req, res) => {
       msg: `Welcome ${userAvailable.name}`,
       type: "success",
       isVerified: userAvailable.isVerified,
+      role: userAvailable.role,
     });
   } catch (e) {
     console.log(e.message, " err-signupController");

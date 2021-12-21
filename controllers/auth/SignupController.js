@@ -5,9 +5,9 @@ const { signToken } = require("../../util/tokenFunc");
 const mailerFunc = require("../../util/mailerFunc");
 
 const SignupController = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, userType } = req.body;
   try {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !userType) {
       return res
         .status(400)
         .send({ msg: "no empty values allowed", type: "error" });
@@ -38,6 +38,7 @@ const SignupController = async (req, res) => {
       name,
       email,
       password: encryptedPsw,
+      role: userType,
     });
     if (!createdUser) {
       return res
@@ -49,6 +50,7 @@ const SignupController = async (req, res) => {
       name: createdUser.name,
       email: createdUser.email,
       id: createdUser._id,
+      role: createdUser.role,
     };
     const token = signToken(tokenPayload);
 
@@ -62,7 +64,8 @@ const SignupController = async (req, res) => {
 
     res.send({
       token,
-      msg: "Successfully registered user",
+      role: createdUser.role,
+      msg: "Successfully registered user, please activate your account",
       type: "success",
     });
   } catch (e) {

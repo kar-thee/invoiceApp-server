@@ -26,6 +26,7 @@ const AuthCheck = (req, res, next) => {
       email: payLoad.email,
       id: payLoad.id,
       name: payLoad.name,
+      role: payLoad.role,
     };
     next();
   } catch (e) {
