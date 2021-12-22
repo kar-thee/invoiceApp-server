@@ -1,8 +1,18 @@
 const Product = require("../../model/productModel");
+const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const CreateProductController = async (req, res) => {
   const { productName, stockQuantity, price, tax } = req.body;
+  const { role } = req.userObj;
   try {
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your admin..",
+        type: "error",
+      });
+    }
+
     if (!productName || !stockQuantity || !price || !tax) {
       return res
         .status(400)

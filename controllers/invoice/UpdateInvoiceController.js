@@ -1,9 +1,8 @@
-const Product = require("../../model/productModel");
+const Invoice = require("../../model/invoiceModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
-const GetProductController = async (req, res) => {
+const UpdateInvoiceController = async (req, res) => {
   const { role } = req.userObj;
-
   try {
     const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
     if (!isEligible) {
@@ -12,13 +11,11 @@ const GetProductController = async (req, res) => {
         type: "error",
       });
     }
-
-    const productArray = await Product.find();
-    res.send({ productArray, msg: "Listed product array", type: "success" });
+    //
   } catch (e) {
-    console.log(e.message, " err-in createProductController");
+    console.log(e.message, " err-in UpdateInvoiceController");
     res.status(500).send({ msg: "e.message", type: "failed" });
   }
 };
 
-module.exports = GetProductController;
+module.exports = UpdateInvoiceController;

@@ -1,9 +1,19 @@
 const User = require("../../model/userModel");
+const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const DeleteUserController = async (req, res) => {
   const { email, userType } = req.body;
+  const { role } = req.userObj;
 
   try {
+    const isEligible = CheckRoleAccess(["admin"], role);
+    if (!isEligible) {
+      return res.status(401).send({
+        msg: "You are not allowed to access this service...contact your Admin..",
+        type: "error",
+      });
+    }
+
     const userAvailable = await User.findOne({ email });
 
     if (!userAvailable) {
