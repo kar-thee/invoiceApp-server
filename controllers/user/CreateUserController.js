@@ -1,5 +1,6 @@
 const User = require("../../model/userModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
+const { encryptFunc } = require("../../util/cryptoFunc");
 
 const CreateUserController = async (req, res) => {
   const { name, email, password, userType } = req.body;
@@ -13,11 +14,14 @@ const CreateUserController = async (req, res) => {
         type: "error",
       });
     }
+    //save only encrypted pwd
+    const encryptedPswOne = await encryptFunc(password);
+    const encryptedPswTwo = await encryptFunc("password1@");
 
     await User.create({
       name: name || "customerName",
       email: email || "customer@invoiceApp.com",
-      password: password || "password1@",
+      password: password ? encryptedPswOne : encryptedPswTwo,
       role: userType || "customer",
     });
     res.send({ msg: "User Created Successfully", type: "success" });

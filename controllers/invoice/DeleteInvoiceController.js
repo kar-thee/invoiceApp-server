@@ -4,7 +4,7 @@ const CheckRoleAccess = require("../../util/CheckRoleAccess");
 const DeleteInvoiceController = async (req, res) => {
   const { role } = req.userObj;
   try {
-    const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
+    const isEligible = CheckRoleAccess(["admin", "manager"], role);
     if (!isEligible) {
       return res.status(401).send({
         msg: "You are not allowed to access this service...contact your admin..",

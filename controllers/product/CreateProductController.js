@@ -4,6 +4,7 @@ const CheckRoleAccess = require("../../util/CheckRoleAccess");
 const CreateProductController = async (req, res) => {
   const { productName, stockQuantity, price, tax } = req.body;
   const { role } = req.userObj;
+  console.log(role); //need to remove later
   try {
     const isEligible = CheckRoleAccess(["admin", "manager"], role);
     if (!isEligible) {
