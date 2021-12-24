@@ -47,8 +47,8 @@ const CreateInvoiceController = async (req, res) => {
       qty,
       price,
       tax,
-      taxCost,
-      costAfterTax,
+      taxCost, //added here
+      costAfterTax, //added here
       totalTaxAmt, //added here
       totalFinalAmt, //added here
       invoiceCreaterName: name, //added here
@@ -69,7 +69,7 @@ const CreateInvoiceController = async (req, res) => {
     });
   } catch (e) {
     console.log(e.message, " err-in CreateInvoiceController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

@@ -2,7 +2,8 @@ const User = require("../../model/userModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const UpdateUserController = async (req, res) => {
-  const { email, name, id, userType } = req.body;
+  const { id } = req.params;
+  const { email, name, userType } = req.body;
   const { role } = req.userObj;
 
   try {
@@ -23,7 +24,7 @@ const UpdateUserController = async (req, res) => {
     res.send({ msg: "updated user info", type: "success" });
   } catch (e) {
     console.log(e.message, " err-in UpdateUserController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

@@ -2,7 +2,7 @@ const Product = require("../../model/productModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const DeleteProductController = async (req, res) => {
-  const { productName } = req.body;
+  const { id } = req.params;
   const { role } = req.userObj;
 
   try {
@@ -14,11 +14,16 @@ const DeleteProductController = async (req, res) => {
       });
     }
 
-    await Product.deleteOne({ productName });
+    const productAvailable = await Product.findById(id);
+    if (!productAvailable) {
+      return res.status(404).send({ msg: "no product found", type: "error" });
+    }
+
+    await Product.deleteOne({ _id: id });
     res.send({ msg: "deleted product", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in createProductController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    console.log(e.message, " err-in DeleteProductController");
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

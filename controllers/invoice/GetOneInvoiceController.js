@@ -1,7 +1,8 @@
 const Invoice = require("../../model/invoiceModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
-const GetAllInvoiceController = async (req, res) => {
+const GetOneInvoiceController = async (req, res) => {
+  const { id } = req.params;
   const { role } = req.userObj;
   try {
     const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
@@ -12,15 +13,15 @@ const GetAllInvoiceController = async (req, res) => {
       });
     }
     //
-    const invoiceArray = await Invoice.find();
-    if (invoiceArray.length < 1) {
-      return res.status(404).send({ msg: "No invoices Found", type: "error" });
+    const invoiceFound = await Invoice.findById(id);
+    if (!invoiceFound) {
+      return res.status(404).send({ msg: "No invoice Found", type: "error" });
     }
-    res.send({ invoiceArray, msg: "Listed invoice array", type: "success" });
+    res.send({ invoiceFound, msg: "invoice available", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in GetAllInvoiceController");
+    console.log(e.message, " err-in GetOneInvoiceController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
-module.exports = GetAllInvoiceController;
+module.exports = GetOneInvoiceController;

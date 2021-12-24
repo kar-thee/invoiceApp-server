@@ -2,7 +2,8 @@ const Product = require("../../model/productModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const UpdateProductController = async (req, res) => {
-  const { id, productName, stockQuantity, price, tax } = req.body;
+  const { id } = req.params;
+  const { productName, stockQuantity, price, tax } = req.body;
   const { role } = req.userObj;
 
   try {
@@ -28,8 +29,8 @@ const UpdateProductController = async (req, res) => {
     });
     res.send({ msg: "updated product data", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in createProductController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    console.log(e.message, " err-in UpdateProductController");
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

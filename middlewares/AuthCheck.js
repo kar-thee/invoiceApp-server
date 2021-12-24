@@ -31,9 +31,7 @@ const AuthCheck = (req, res, next) => {
     next();
   } catch (e) {
     console.log(e.message, " err-authCheckFunc");
-    return res
-      .status(500)
-      .send({ msg: "Internal Server issue", type: "error" });
+    return res.status(500).send({ msg: e.message, type: "error" });
   }
 };
 

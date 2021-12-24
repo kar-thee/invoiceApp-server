@@ -1,7 +1,7 @@
 const Product = require("../../model/productModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
-const GetProductController = async (req, res) => {
+const GetProductsController = async (req, res) => {
   const { role } = req.userObj;
 
   try {
@@ -16,9 +16,9 @@ const GetProductController = async (req, res) => {
     const productArray = await Product.find();
     res.send({ productArray, msg: "Listed product array", type: "success" });
   } catch (e) {
-    console.log(e.message, " err-in createProductController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    console.log(e.message, " err-in GetProductsController");
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
-module.exports = GetProductController;
+module.exports = GetProductsController;

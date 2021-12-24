@@ -1,8 +1,9 @@
 const User = require("../../model/userModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
-const GetAllUserController = async (req, res) => {
+const GetOneUserController = async (req, res) => {
   const { role } = req.userObj;
+  const { id } = req.params;
   try {
     const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
     if (!isEligible) {
@@ -11,7 +12,7 @@ const GetAllUserController = async (req, res) => {
         type: "error",
       });
     }
-    const userArray = await User.find().select({
+    const userFound = await User.findById(id).select({
       name: 1,
       email: 1,
       role: 1,
@@ -19,16 +20,19 @@ const GetAllUserController = async (req, res) => {
       _id: 1,
       isVerified: 1,
     });
+    if (!userFound) {
+      return res.status(404).send({ msg: "No user Found", type: "error" });
+    }
 
     res.send({
-      userArray,
+      userFound,
       type: "success",
-      msg: "All userData Fetched successfully",
+      msg: "userData Fetched successfully",
     });
   } catch (e) {
-    console.log(e.message, " err-in GetAllUserController");
+    console.log(e.message, " err-in GetOneUserController");
     res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
-module.exports = GetAllUserController;
+module.exports = GetOneUserController;

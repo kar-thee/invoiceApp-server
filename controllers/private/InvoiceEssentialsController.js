@@ -45,7 +45,7 @@ const InvoiceEssentialsController = async (req, res) => {
     });
   } catch (e) {
     console.log(e.message, " err-in InvoiceEssentialsController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

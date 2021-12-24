@@ -4,7 +4,6 @@ const CheckRoleAccess = require("../../util/CheckRoleAccess");
 const CreateProductController = async (req, res) => {
   const { productName, stockQuantity, price, tax } = req.body;
   const { role } = req.userObj;
-  console.log(role); //need to remove later
   try {
     const isEligible = CheckRoleAccess(["admin", "manager"], role);
     if (!isEligible) {
@@ -23,7 +22,7 @@ const CreateProductController = async (req, res) => {
     res.send({ msg: "Product Created", type: "success" });
   } catch (e) {
     console.log(e.message, " err-in createProductController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 

@@ -27,7 +27,7 @@ const CreateUserController = async (req, res) => {
     res.send({ msg: "User Created Successfully", type: "success" });
   } catch (e) {
     console.log(e.message, " err-in createUserController");
-    res.status(500).send({ msg: "e.message", type: "failed" });
+    res.status(500).send({ msg: e.message, type: "failed" });
   }
 };
 
