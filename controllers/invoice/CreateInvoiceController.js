@@ -1,6 +1,9 @@
 const Invoice = require("../../model/invoiceModel");
 const Product = require("../../model/productModel");
+const User = require("../../model/userModel");
+
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
+const mailerFunc = require("../../util/mailerFunc");
 
 const CreateInvoiceController = async (req, res) => {
   const { role, name, email } = req.userObj;
@@ -61,6 +64,44 @@ const CreateInvoiceController = async (req, res) => {
         .status(400)
         .send({ msg: "couldnot create Invoice...,try again", type: "error" });
     }
+
+    const employeeEmail = role === "employee" ? employeeEmail : "";
+
+    const mailingArray = [
+      customerEmail,
+      employeeEmail,
+      process.env.ADMINEMAILADDRESS,
+      process.env.MANAGEREMAILADDRESS,
+    ];
+    const mailDetailText = `Hi, A new Invoice created by ${name}-(${role}) from ${sellerName} organization and issued to ${customerName} (${customerEmail}) ,with invoiceNo:${invoiceNo} for product-${productName} and Totalvalue of ₹${totalFinalAmt} which will due after ${dueDate} days`;
+    const data = {
+      toAddress: mailingArray,
+      mailSubject: "invoiceApp-New Invoice Created",
+      mailContent: mailDetailText,
+      mailHtml: `<div>
+      <h1 style="color:#b625da;background-color:#24da545c;width: fit-content;padding: 10px;">INVOICE GENERATED</h1>
+      <p style="margin: 5px auto;border: 3px solid #411265;padding:10px;line-height: 3;">
+      Hi ,
+       A new Invoice created by
+        <span style="background-color: #6ada25;font-size: large;padding: 3px;">${name}</span> - 
+        <span style="background-color: #6ada25;font-size: large;padding: 3px;">(${role})</span> from 
+        <span style="background-color: #6ada25;font-size: large;padding: 3px;">${sellerName}</span> 
+        organization and issued to 
+        <span style="background-color: #6ada25;font-size: large;padding: 3px;">${customerName}</span> 
+        having <span style="background-color: #6ada25;font-size: large;padding: 3px;">(${customerEmail})</span>,
+       with <span style="color:#6ada25">invoiceNo</span> : 
+       <span style="background-color: #6ada25;font-size: large;padding: 3px;">${invoiceNo}</span>
+        for <span style="background-color: #6ada25;font-size: large;padding: 3px;">product</span>
+        - <span style="background-color: #6ada25;font-size: large;padding: 3px;">${productName}</span>
+        and <span style="background-color: #6ada25;font-size: large;padding: 3px;">Totalvalue</span> 
+        of <span style="background-color: #6ada25;font-size: large;padding: 3px;">₹${totalFinalAmt}</span>
+         which will due after 
+         <span style="background-color: #6ada25;font-size: large;padding: 3px;">${dueDate}</span> days.      
+       </p>
+      <a href="${process.env.INVOICEURI}/${createdInvoice._id}" style="border:5px solid #da25256e;padding:10px;">Click here to view Invoice or download pdf</a>
+      </div>`,
+    };
+    await mailerFunc(data);
 
     res.send({
       createdInvoice,
