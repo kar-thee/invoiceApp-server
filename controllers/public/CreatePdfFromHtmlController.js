@@ -15,7 +15,7 @@ const CreatePdfFromHtmlController = async (req, res) => {
       const page = await browser.newPage();
 
       await page.goto(`${process.env.INVOICEURI}/${id}`, {
-        waitUntil: "networkidle2",
+        waitUntil: "networkidle0",
       });
 
       const pdfGenerated = await page.pdf({
