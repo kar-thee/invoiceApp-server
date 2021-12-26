@@ -24,7 +24,7 @@ const CreatePdfFromHtmlController = async (req, res) => {
         format: "a4",
       });
 
-      await browser.close();
+      //   await browser.close();
       return pdfGenerated;
     };
     await puppeteerFunc()
@@ -35,7 +35,8 @@ const CreatePdfFromHtmlController = async (req, res) => {
       })
       .catch((e) => {
         console.log("puppeteerFunc not working");
-        console.log(e, " err msg in pupeeterFunc");
+        console.log(e.message, " err msg in pupeeterFunc");
+        console.log(e, " err  in pupeeterFunc");
       })
       .finally(() => console.log("puppeteerFunc finally"));
   } catch (e) {
