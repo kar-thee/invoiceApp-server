@@ -79,7 +79,7 @@ const CreateInvoiceController = async (req, res) => {
       mailSubject: "invoiceApp-New Invoice Created",
       mailContent: mailDetailText,
       mailHtml: `<div>
-      <h1 style="color:#b625da;background-color: #24da545c;">INVOICE GENERATED</h1>
+      <h1 style="color:#b625da;background-color: #24da545c;width: fit-content;padding: 10px;">INVOICE GENERATED</h1>
       <p style="margin: 5px auto;border: 3px solid #411265;padding:10px;line-height: 3;">
       Hi ,
        A new Invoice created by
