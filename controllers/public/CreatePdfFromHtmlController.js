@@ -10,7 +10,7 @@ const CreatePdfFromHtmlController = async (req, res) => {
     //   res.send(pdf);
     // };
 
-    (async () => {
+    const puppeteerFunc = async () => {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
 
@@ -24,10 +24,17 @@ const CreatePdfFromHtmlController = async (req, res) => {
         format: "a4",
       });
 
-      await res.setHeader("Content-Type", "application/pdf");
-      await res.send(pdfGenerated);
       await browser.close();
-    })();
+      return pdfGenerated;
+    };
+    await puppeteerFunc()
+      .then(async (pdfGenerated) => {
+        console.log("puppeteerFunc working");
+        await res.setHeader("Content-Type", "application/pdf");
+        await res.send(pdfGenerated);
+      })
+      .catch(() => console.log("puppeteerFunc not working"))
+      .finally(() => console.log("puppeteerFunc finally"));
   } catch (e) {
     console.log(e.message, " err- generatePdfFunc");
     res.status(500).send({ msg: "Server issue", type: "error" });
