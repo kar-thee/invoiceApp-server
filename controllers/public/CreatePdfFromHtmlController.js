@@ -10,12 +10,12 @@ const CreatePdfFromHtmlController = async (req, res) => {
     //   res.send(pdf);
     // };
 
-    const puppeteerFunc = async () => {
+    (async () => {
       const browser = await puppeteer.launch();
       const page = await browser.newPage();
 
       await page.goto(`${process.env.INVOICEURI}/${id}`, {
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       });
 
       const pdfGenerated = await page.pdf({
@@ -24,21 +24,14 @@ const CreatePdfFromHtmlController = async (req, res) => {
         format: "a4",
       });
 
-      //   await browser.close();
-      return pdfGenerated;
-    };
-    await puppeteerFunc()
-      .then(async (pdfGenerated) => {
-        console.log("puppeteerFunc working");
-        await res.setHeader("Content-Type", "application/pdf");
-        await res.send(pdfGenerated);
-      })
-      .catch((e) => {
-        console.log("puppeteerFunc not working");
-        console.log(e.message, " err msg in pupeeterFunc");
-        console.log(e, " err  in pupeeterFunc");
-      })
-      .finally(() => console.log("puppeteerFunc finally"));
+      await res.setHeader("Content-Type", "application/pdf");
+      await res.send(pdfGenerated);
+      await browser.close();
+    })().catch((e) => {
+      console.log(e.message, " err msg in pupeeter");
+      console.log("  in pupeeter");
+      console.log(e.message, " err msg in pupeeter");
+    });
   } catch (e) {
     console.log(e.message, " err- generatePdfFunc");
     res.status(500).send({ msg: "Server issue", type: "error" });
