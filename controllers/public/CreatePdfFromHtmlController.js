@@ -33,7 +33,10 @@ const CreatePdfFromHtmlController = async (req, res) => {
         await res.setHeader("Content-Type", "application/pdf");
         await res.send(pdfGenerated);
       })
-      .catch(() => console.log("puppeteerFunc not working"))
+      .catch((e) => {
+        console.log("puppeteerFunc not working");
+        console.log(e, " err msg in pupeeterFunc");
+      })
       .finally(() => console.log("puppeteerFunc finally"));
   } catch (e) {
     console.log(e.message, " err- generatePdfFunc");
