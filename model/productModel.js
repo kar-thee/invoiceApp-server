@@ -6,6 +6,7 @@ const productSchema = schema({
     type: String,
     required: true,
     unique: true,
+    maxLength: 25,
   },
   stockQuantity: {
     type: Number,

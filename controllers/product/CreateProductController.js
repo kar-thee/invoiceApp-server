@@ -18,7 +18,13 @@ const CreateProductController = async (req, res) => {
         .status(400)
         .send({ msg: "no empty values allowed", type: "error" });
     }
-    await Product.create({ productName, stockQuantity, price, tax });
+    const updatedName = productName.substr(0, 24);
+    await Product.create({
+      productName: updatedName,
+      stockQuantity,
+      price,
+      tax,
+    });
     res.send({ msg: "Product Created", type: "success" });
   } catch (e) {
     console.log(e.message, " err-in createProductController");

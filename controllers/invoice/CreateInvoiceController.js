@@ -37,16 +37,17 @@ const CreateInvoiceController = async (req, res) => {
 
     //change stock qty in product collection
     const changeQty = await Product.findOne({ productName });
-    changeQty.stockQuantity -= qty;
+    changeQty.stockQuantity = changeQty.stockQuantity - qty;
     await changeQty.save();
 
+    const updatedName = productName.substr(0, 24);
     const createdInvoice = await Invoice.create({
       invoiceLogoImg: invoiceLogoImg || null,
       sellerName,
       customerName,
       customerEmail,
       invoiceNo,
-      productName,
+      productName: updatedName,
       qty,
       price,
       tax,
