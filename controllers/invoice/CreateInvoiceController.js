@@ -37,7 +37,8 @@ const CreateInvoiceController = async (req, res) => {
 
     //change stock qty in product collection
     const changeQty = await Product.findOne({ productName });
-    changeQty.stockQuantity = changeQty.stockQuantity - qty;
+    const diff = changeQty.stockQuantity - qty;
+    changeQty.stockQuantity = parseInt(diff);
     await changeQty.save();
 
     const updatedName = productName.substr(0, 24);
