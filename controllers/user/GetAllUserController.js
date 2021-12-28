@@ -15,7 +15,6 @@ const GetAllUserController = async (req, res) => {
       name: 1,
       email: 1,
       role: 1,
-      idVerified: 1,
       _id: 1,
       isVerified: 1,
     });

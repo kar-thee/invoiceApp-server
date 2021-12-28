@@ -17,7 +17,7 @@ router.get("/:id", GetOneProductController);
 router.post("/", CreateProductController);
 
 //updateProduct info
-router.put("/:productName", UpdateProductController);
+router.put("/:id", UpdateProductController);
 
 //DeleteProduct
 router.delete("/:id", DeleteProductController);
