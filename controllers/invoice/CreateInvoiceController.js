@@ -91,7 +91,7 @@ const CreateInvoiceController = async (req, res) => {
         organization and issued to 
         <span style="background-color: #6ada25;font-size: large;padding: 3px;">${customerName}</span> 
         having <span style="background-color: #6ada25;font-size: large;padding: 3px;">(${customerEmail})</span>,
-       with <span style="color:#6ada25">invoiceNo</span> : 
+       with <span style="background-color: #6ada25;font-size: large;padding: 3px;">invoiceNo</span> : 
        <span style="background-color: #6ada25;font-size: large;padding: 3px;">${invoiceNo}</span>
         for <span style="background-color: #6ada25;font-size: large;padding: 3px;">product</span>
         - <span style="background-color: #6ada25;font-size: large;padding: 3px;">${productName}</span>
@@ -100,7 +100,7 @@ const CreateInvoiceController = async (req, res) => {
          which will due after 
          <span style="background-color: #6ada25;font-size: large;padding: 3px;">${dueDate}</span> days.      
        </p>
-      <a href="${process.env.INVOICEURI}/${createdInvoice._id}" style="border:5px solid #da25256e;padding:10px;">Click here to view Invoice or download pdf</a>
+      <a href="${process.env.INVOICEURIEMAIL}/${createdInvoice._id}" style="border:5px solid #da25256e;padding:10px;">Click here to view Invoice or download pdf</a>
       </div>`,
     };
     await mailerFunc(data);
