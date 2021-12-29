@@ -2,8 +2,7 @@ const Invoice = require("../../model/invoiceModel");
 const CheckRoleAccess = require("../../util/CheckRoleAccess");
 
 const SearchInvoiceController = async (req, res) => {
-  const { key } = req.params;
-  const { value } = req.query;
+  const { key, value } = req.body;
   const { role } = req.userObj;
   try {
     const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
@@ -13,12 +12,18 @@ const SearchInvoiceController = async (req, res) => {
         type: "error",
       });
     }
+    if (!key || !value) {
+      return res
+        .status(404)
+        .send({ msg: "No empty values allowed", type: "error" });
+    }
     //we can search anything based on key value pair(date,customer,creator..etc)
     //proudMoment
     const dataFoundArray = await Invoice.find({
       [key]: value,
     });
-    if (dataFoundArray.length < 1) {
+
+    if (dataFoundArray.length === 0) {
       return res.status(404).send({ msg: "No Data Found", type: "error" });
     }
 
