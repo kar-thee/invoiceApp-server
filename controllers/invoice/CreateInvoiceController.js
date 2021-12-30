@@ -67,7 +67,7 @@ const CreateInvoiceController = async (req, res) => {
         .send({ msg: "couldnot create Invoice...,try again", type: "error" });
     }
 
-    const employeeEmail = role === "employee" ? employeeEmail : "";
+    const employeeEmail = role === "employee" ? email : "";
 
     const mailingArray = [
       customerEmail,
