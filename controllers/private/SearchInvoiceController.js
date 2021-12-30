@@ -5,10 +5,13 @@ const SearchInvoiceController = async (req, res) => {
   const { key, value } = req.body;
   const { role } = req.userObj;
   try {
-    const isEligible = CheckRoleAccess(["admin", "manager", "employee"], role);
+    const isEligible = CheckRoleAccess(
+      ["admin", "manager", "employee", "customer"],
+      role
+    );
     if (!isEligible) {
       return res.status(401).send({
-        msg: "You are not allowed to access this service...contact  admin..",
+        msg: "You are not allowed to access this service...contact admin..",
         type: "error",
       });
     }
